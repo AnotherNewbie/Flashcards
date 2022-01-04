@@ -4,6 +4,13 @@ import NotFound from "./NotFound";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Home from "./Home";
+import Study from "./Study";
+import CreateDeck from "./CreateDeck";
+import Deck from "./Deck";
+import EditDeck from "./EditDeck";
+import AddCard from "./AddCard";
+import EditCard from "./EditCard";
+
 
 function Layout() {
   return (
