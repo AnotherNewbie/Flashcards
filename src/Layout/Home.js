@@ -1,7 +1,7 @@
 import { Link, Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Deck from "./Deck";
-import EditDeck from "./EditDeck";
+import Deck from "./DeckCard";
+import DeckCard from "./DeckCard";
 
 export default function Home() {
     const [decks, setDecks] = useState([]);
@@ -14,20 +14,17 @@ export default function Home() {
         loadDecks();
     },[]);
 
-    const deckList = decks.map((deck) =>(
-        <Deck key={deck.id} title={deck.name} length={deck.cards.length -1} description={deck.description} id = {deck.id} />
-    ));
+    
 
+    const deckList = decks.map((deck) =>(                
+        <DeckCard key={deck.id} title={deck.name} length={deck.cards.length} description={deck.description} id={deck.id}/>
+    ));
+    
+    
     return(
         <>    
-            <Link to="/decks/new">CreateNew</Link>            
-            <Switch>
-                {deckList}<Route path="/decks/:deckId">
-                <EditDeck decks={decks}/>
-                </Route>
-            </Switch>
-
-
+            <Link to="/decks/new">CreateNew</Link>                   
+            {deckList}
         </>
     )
 }
