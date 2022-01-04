@@ -1,6 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
-export default function DeckCard( {key, title, length, description, id} ) {    
+export default function DeckCard( { title, length, description, id} ) {    
 
     return(
         <div>

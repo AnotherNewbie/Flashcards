@@ -1,6 +1,6 @@
-import { Link, Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Deck from "./DeckCard";
+
 import DeckCard from "./DeckCard";
 
 export default function Home() {
