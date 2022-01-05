@@ -6,7 +6,7 @@ import { listDecks } from "../utils/api";
 import DeckCard from "./DeckCard";
 
 export default function Home() {
-    const [decks, setDecks] = useState([]);
+    const [decks, setDecks] = useState([{cards:[]}]);
     useEffect(() => {
         async function loadDecks() {
             const response = await listDecks();                      
@@ -22,7 +22,7 @@ export default function Home() {
     
     return(
         <>    
-            <Link to="/decks/new">CreateNew</Link>
+            <Link to="/decks/new"><button type="button" className="btn btn-secondary">CreateNew</button></Link>
             <div className="Container">{deckList}</div>                   
         </>
     )

@@ -7,6 +7,7 @@ import ErrorMessage from "./ErrorMessage";
 
 export default function Deck() {
   const { deckId } = useParams();
+  console.log(deckId)
   const [deck, setDeck] = useState({cards: []});
   const [error, setError] = useState(undefined);
 
