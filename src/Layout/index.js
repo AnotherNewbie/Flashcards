@@ -23,15 +23,15 @@ function Layout() {
             <Route exact={true} path="/">
               <Home />
             </Route>
+            <Route path="/decks/:deckId">
+              <Deck />
+            </Route>  
             <Route path="/decks/:deckId/study">
               <Study />
             </Route>
             <Route path="/decks/new">
               <CreateDeck />
-            </Route>  
-            <Route path="/decks/:deckId">
-              <Deck />
-            </Route>                      
+            </Route>                                  
             <Route path="/decks/:deckId/edit">
               <EditDeck />
             </Route>

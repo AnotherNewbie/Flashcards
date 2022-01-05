@@ -13,8 +13,7 @@ export default function Deck() {
   useEffect(() => {
     const ac = new AbortController();
     readDeck(deckId, ac.signal)
-      .then(d => {
-          console.log(d);
+      .then(d => {          
           setDeck(d);
           return () => ac.abort()
         }).catch((error) => setError(error));
