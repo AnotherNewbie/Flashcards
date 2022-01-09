@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export default function StudyCard(props) {
   const { totalCards, deckName, card, handleNext } = props;
