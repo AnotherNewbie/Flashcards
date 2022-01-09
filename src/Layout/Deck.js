@@ -26,13 +26,23 @@ export default function Deck() {
 
   const deckList = deck.cards.map((card) => (
     <div className="Container" key={card.id}>
-      <div className="row">{card.id}</div>
       <div className="row">
         <div className="col">Front: {card.front}</div>
         <div className="col">Back: {card.back}</div>
       </div>
+      <div className="row">
+        <div className="col">          
+          <button className="btn btn-danger float-right">Delete</button>
+          <button className="btn btn-secondary float-right">Edit</button>
+        </div>
+      </div>
     </div>
   ));
 
-  return <>{deckList}</>;
+  return (
+    <>
+      <h2>Cards</h2>
+      {deckList}
+    </>
+  );
 }
