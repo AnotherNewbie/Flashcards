@@ -16,7 +16,7 @@ export default function Home() {
     },[]);
 
     const deckList = decks.map((deck) =>(                
-        <DeckCard key={deck.id} title={deck.name} length={deck.cards.length} description={deck.description} id={deck.id}/>
+        <DeckCard key={`deck-${deck.id}`} title={deck.name} length={deck.cards.length} description={deck.description} id={deck.id}/>
     ));
     
     
