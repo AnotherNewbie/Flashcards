@@ -2,16 +2,14 @@ import React from "react";
 import { useState } from "react";
 
 export default function CardForm(props){
-    const {frontIN, backIN} = props;
-    // const [id, setId] = useState();
+    const {cardId, frontIN, backIN, deckId} = props;    
     const [front, setFront] = useState(frontIN);
     const [back, setBack] = useState(backIN);
-    // const [deckId, setDeckId] = useState();
 
-    // const handleIdChange = (event) => setId(event.target.value);
     const handleFrontChange = (event) => setFront(event.target.value);
     const handleBackChange = (event) => setBack(event.target.value);
-    // const handleDeckIdChange = (event) => setDeckId(event.target.value);
+    
+    console.log("front: " + front);
 
     return(
         <>

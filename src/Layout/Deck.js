@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { readDeck } from "../utils/api";
 
@@ -33,7 +33,7 @@ export default function Deck() {
       <div className="row">
         <div className="col">          
           <button className="btn btn-danger float-right">Delete</button>
-          <button className="btn btn-secondary float-right">Edit</button>
+          <Link to={`/decks/${deckId}/cards/${card.id}/edit`}><button className="btn btn-secondary float-right">Edit</button></Link>
         </div>
       </div>
     </div>
