@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AddCardHandler } from "./AddCard";
 
 export default function StudyCard(props) {
   const { totalCards, deckName, card, handleNext } = props;
