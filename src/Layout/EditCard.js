@@ -9,7 +9,12 @@ export default function EditCard(props) {
     const [card, setCard] = useState({id:"",front:"", back:"", deckId:""});
     const ac = new AbortController();
     const [error, setError] = useState(undefined);
-    const {cardId, deckId} = useParams();    
+    const {cardId, deckId} = useParams();
+    const [front, setFront] = useState();
+    const [back, setBack] = useState();
+
+    const handleFrontChange = (event) => setFront(event.target.value);
+    const handleBackChange = (event) => setBack(event.target.value);    
 
     console.log(cardId);
 
@@ -21,7 +26,9 @@ export default function EditCard(props) {
         readCard(cardId, ac.signal)
           .then((c) => {
             console.log(`updating card: ${JSON.stringify(c, null, 4)}`);
-            setCard(c);        
+            setCard(c);
+            setFront(card.front);
+            setBack(card.back);
             return () => ac.abort();
           })
           .catch((error) => setError(error));
@@ -33,7 +40,17 @@ export default function EditCard(props) {
       
     return(
         <>
-            <CardForm cardId={cardId} frontIN={card.front} backIN={card.back} deckId={deckId}/>
+            {/* <CardForm cardId={cardId} frontIN={card.front} backIN={card.back} deckId={deckId}/> */}
+            <form>
+               <label htmlFor="front">
+                Enter front of card:
+                <textarea id="front" cols="50" rows="5" maxlength="250" name="front" onChange={handleFrontChange} value={front}>{front}</textarea>
+               </label>
+               <label htmlFor="back">
+                Enter back of card:
+                <textarea id="back" cols="50" rows="5" maxlength="250" name="back" onChange={handleBackChange} value={back} >{back}</textarea>
+               </label>
+            </form> 
         </>
     )
 }
