@@ -50,8 +50,7 @@ export default function EditCard(props) {
             name="front"
             onChange={handleFrontChange}
             value={card.front}
-          >            
-          </textarea>
+          ></textarea>
         </label>
         <label htmlFor="back">
           Enter back of card:
@@ -63,9 +62,13 @@ export default function EditCard(props) {
             name="back"
             onChange={handleBackChange}
             value={card.back}
-          >            
-          </textarea>
+          ></textarea>
         </label>
+        <div className="row">
+          <div className="col">
+            <button className="btn btn-primary float-right">Submit</button>
+          </div>
+        </div>
       </form>
     </>
   );
