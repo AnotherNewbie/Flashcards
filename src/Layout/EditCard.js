@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from "react";
-import CardForm from "./CardForm";
-import { readCard } from "../utils/api";
+import { readCard, updateCard } from "../utils/api";
 import ErrorMessage from "./ErrorMessage";
 import { useParams } from "react-router-dom";
 
 export default function EditCard(props) {
-  // const {cardId} = props;
+
+
+  const { cardId, deckId } = useParams();
+
+  const initialState = {
+    front: "",
+    back: "",
+    id: cardId,
+    deckId: deckId,
+  };  
+
+  const [formData, setFormData] = useState({ ...initialState });
+
   const [card, setCard] = useState({ id: "", front: "", back: "", deckId: "" });
   const ac = new AbortController();
   const [error, setError] = useState(undefined);
-  const { cardId, deckId } = useParams();
-  const [front, setFront] = useState();
-  const [back, setBack] = useState();
 
-  const handleFrontChange = (event) => setFront(event.target.value);
-  const handleBackChange = (event) => setBack(event.target.value);
+  const SubmitHandler = (event) => {
+    event.preventDefault();
+    console.log("Submitted:", formData);
+    updateCard(formData, ac.signal).then(()=>{ return () => ac.abort()});    
+  };
+
+  const handleChange = ({ target }) =>
+    setFormData({ ...formData, [target.name]: target.value });
 
   useEffect(() => {
     console.log(`cardId ${cardId}`);
@@ -25,8 +39,11 @@ export default function EditCard(props) {
       .then((c) => {
         console.log(`updating card: ${JSON.stringify(c, null, 4)}`);
         setCard(c);
-        setFront(card.front);
-        setBack(card.back);
+        initialState.front = c.front;
+        initialState.back = c.back;
+        initialState.id = c.id;
+        initialState.deckId = c.deckId;
+        setFormData({ ...initialState });
         return () => ac.abort();
       })
       .catch((error) => setError(error));
@@ -38,8 +55,7 @@ export default function EditCard(props) {
 
   return (
     <>
-      {/* <CardForm cardId={cardId} frontIN={card.front} backIN={card.back} deckId={deckId}/> */}
-      <form>
+      <form onSubmit={SubmitHandler}>
         <label htmlFor="front">
           Enter front of card:
           <textarea
@@ -48,8 +64,8 @@ export default function EditCard(props) {
             rows="5"
             maxLength="250"
             name="front"
-            onChange={handleFrontChange}
-            value={card.front}
+            onChange={handleChange}
+            value={formData.front}
           ></textarea>
         </label>
         <label htmlFor="back">
@@ -60,13 +76,15 @@ export default function EditCard(props) {
             rows="5"
             maxLength="250"
             name="back"
-            onChange={handleBackChange}
-            value={card.back}
+            onChange={handleChange}
+            value={formData.back}
           ></textarea>
         </label>
         <div className="row">
           <div className="col">
-            <button className="btn btn-primary float-right">Submit</button>
+            <button type="Submit" className="btn btn-primary float-right">
+              Submit
+            </button>
           </div>
         </div>
       </form>

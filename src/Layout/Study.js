@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import StudyCard from "./StudyCard";
 import { readDeck, readCard } from "../utils/api";
 import ErrorMessage from "./ErrorMessage";
-import { AddCardHandler } from "./AddCard";
 
 export default function Study() {
   const { deckId } = useParams();
@@ -78,7 +77,7 @@ export default function Study() {
           </li>
         </ol>
       </nav>
-      {card && <StudyCard key={`card-${card.id}`} totalCards={cardIds.length} deckName={deck.name} card={card} handleNext={handleNext}  AddCardHandler={AddCardHandler}/>}
+      {card && <StudyCard key={`card-${card.id}`} totalCards={cardIds.length} deckName={deck.name} card={card} handleNext={handleNext} />}
     </>
   );
 }

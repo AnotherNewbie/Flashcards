@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AddCardHandler } from "./AddCard";
+import { Link } from "react-router-dom";
 
 export default function StudyCard(props) {
   const { totalCards, deckName, card, handleNext } = props;
@@ -36,7 +36,7 @@ if(totalCards > 2){
         <div className="row">
           <div className="col">
             <p>You need at least 3 cards to study. There are {totalCards} cards in this deck.</p>
-            <button type="button" className="btn btn-primary" onClick={AddCardHandler}>Add Cards</button>
+            <Link to={`/decks/${card.deckId}/cards/new`}><button type="button" className="btn btn-primary">Add Card</button></Link>
           </div>
         </div>
       </div>
