@@ -4,8 +4,6 @@ import ErrorMessage from "./ErrorMessage";
 import { useParams } from "react-router-dom";
 
 export default function EditCard(props) {
-
-
   const { cardId, deckId } = useParams();
 
   const initialState = {
@@ -13,7 +11,7 @@ export default function EditCard(props) {
     back: "",
     id: cardId,
     deckId: deckId,
-  };  
+  };
 
   const [formData, setFormData] = useState({ ...initialState });
 
@@ -24,7 +22,9 @@ export default function EditCard(props) {
   const SubmitHandler = (event) => {
     event.preventDefault();
     console.log("Submitted:", formData);
-    updateCard(formData, ac.signal).then(()=>{ return () => ac.abort()});    
+    updateCard(formData, ac.signal).then(() => {
+      return () => ac.abort();
+    });
   };
 
   const handleChange = ({ target }) =>

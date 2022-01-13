@@ -1,38 +1,31 @@
 import React, { useState } from "react";
 import { createCard } from "../utils/api";
 
-
 export default function AddCard() {
+  const initialState = {
+    front: "",
+    back: "",
+    deckId: "",
+  };
 
-    const initialState = {
-        front: "",
-        back: "",        
-        deckId: "",
-      }; 
+  const [formData, setFormData] = useState({ ...initialState });
+  const ac = new AbortController();
+  const [error, setError] = useState(undefined);
 
-    // const [front, setFront] = useState();
-    // const [back, setBack] = useState();
+  const SubmitHandler = (event) => {
+    event.preventDefault();
+    console.log("Submitted:", formData);
+    createCard(formData.deckId, formData, ac.signal).then(() => {
+      return () => ac.abort();
+    });
+  };
 
+  const handleChange = ({ target }) =>
+    setFormData({ ...formData, [target.name]: target.value });
 
-    // const handleFrontChange = (event) => setFront(event.target.value);
-    // const handleBackChange = (event) => setBack(event.target.value);    
-
-    const [formData, setFormData] = useState({ ...initialState });
-    const ac = new AbortController();
-    const [error, setError] = useState(undefined);
-
-    const SubmitHandler = (event) => {
-        event.preventDefault();
-        console.log("Submitted:", formData);
-        createCard(formData.deckId, formData, ac.signal).then(()=>{ return () => ac.abort()});    
-      };
-
-      const handleChange = ({ target }) =>
-      setFormData({ ...formData, [target.name]: target.value });
-
-    return(
-        <>            
-            <form onSubmit={SubmitHandler}>
+  return (
+    <>
+      <form onSubmit={SubmitHandler}>
         <label htmlFor="front">
           Enter front of card:
           <textarea
@@ -58,8 +51,14 @@ export default function AddCard() {
           ></textarea>
         </label>
         <label htmlFor="deckId">
-            Enter deck id:
-            <input type="text" id="deckId" name="deckId" onChange={handleChange} value={formData.deckId} />
+          Enter deck id:
+          <input
+            type="text"
+            id="deckId"
+            name="deckId"
+            onChange={handleChange}
+            value={formData.deckId}
+          />
         </label>
         <div className="row">
           <div className="col">
@@ -69,6 +68,6 @@ export default function AddCard() {
           </div>
         </div>
       </form>
-        </>
-    )
+    </>
+  );
 }
