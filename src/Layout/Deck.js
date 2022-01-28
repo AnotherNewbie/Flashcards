@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import { readDeck } from "../utils/api";
+import { readDeck, deleteCard } from "../utils/api";
 
 import ErrorMessage from "./ErrorMessage";
 
@@ -9,9 +9,9 @@ export default function Deck() {
   const { deckId } = useParams();
   const [deck, setDeck] = useState({ cards: [] });
   const [error, setError] = useState(undefined);
+  const ac = new AbortController();
 
-  useEffect(() => {
-    const ac = new AbortController();
+  useEffect(() => {    
     readDeck(deckId, ac.signal)
       .then((d) => {
         setDeck(d);
@@ -24,6 +24,12 @@ export default function Deck() {
     return <ErrorMessage error={error} />;
   }
 
+  const deleteHandler = (cardId) => {
+    if(window.confirm("Do you really want to delete this card?")){
+      deleteCard(cardId, ac.signal)
+    }      
+  }
+
   const deckList = deck.cards.map((card) => (
     <div className="Container" key={card.id}>
       <div className="row">
@@ -32,7 +38,7 @@ export default function Deck() {
       </div>
       <div className="row">
         <div className="col">          
-          <button className="btn btn-danger float-right">Delete</button>
+          <button className="btn btn-danger float-right" onClick={() => deleteHandler(card.id)}>Delete</button>
           <Link to={`/decks/${deckId}/cards/${card.id}/edit`}><button className="btn btn-secondary float-right">Edit</button></Link>
         </div>
       </div>

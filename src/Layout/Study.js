@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import StudyCard from "./StudyCard";
 import { readDeck, readCard } from "../utils/api";
@@ -13,6 +13,7 @@ export default function Study() {
   let cardId = null;
   const ac = new AbortController();
   let cardIds = [];
+  const history = useHistory();
 
   useEffect(() => {
     readDeck(deckId, ac.signal)
@@ -46,19 +47,24 @@ export default function Study() {
   if (error) {
     return <ErrorMessage error={error} />;
   }
-
   
   
   const handleNext = async () =>
   { 
     console.log("handle next called");
-    setIndex(cardIds.findIndex((id)=> id = card.id))
+    setIndex(cardIds.findIndex((id)=> id = card.id))    
     setIndex(index + 1)
     cardId = cardIds[index];
-    console.log("cardId: " + cardId)    
-  }
-
-  
+    console.log("cardId: " + cardId)
+    if (cardId === undefined){
+      if(window.confirm(`Restart cards?/n/nClick 'cancel' to return to the homepage`)){
+        setIndex(0);
+        cardId = cardIds[index];
+      } else {        
+        history.push(`/decks/${deckId}/study`);
+      }            
+    }
+  }  
 
   console.log(`card: ${JSON.stringify(card, null, 4)}`);
 
