@@ -1,57 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { readCard, updateCard } from "../utils/api";
-import ErrorMessage from "./ErrorMessage";
+import React, { useState} from "react"; //useEffect
+import { updateCard, createCard } from "../utils/api"; //readCard
+// import ErrorMessage from "./ErrorMessage";
 import { useParams } from "react-router-dom";
 
-export default function EditCard(props) {
+export default function EditCard() { //props
+  let submitType = "";
   const { cardId, deckId } = useParams();
-
   const initialState = {
     front: "",
     back: "",
     id: cardId,
     deckId: deckId,
   };
-
-  const [formData, setFormData] = useState({ ...initialState });
-
-  const [card, setCard] = useState({ id: "", front: "", back: "", deckId: "" });
+  
+  // const [card, setCard] = useState({});
   const ac = new AbortController();
-  const [error, setError] = useState(undefined);
+  // const [error, setError] = useState(undefined);
+  const [formData, setFormData] = useState({...initialState});
+  
 
   const SubmitHandler = (event) => {
-    event.preventDefault();
-    console.log("Submitted:", formData);
-    updateCard(formData, ac.signal).then(() => {
-      return () => ac.abort();
-    });
+    if (submitType === "update") {
+      event.preventDefault();
+      console.log("Updated:", formData);
+      updateCard(formData, ac.signal).then(() => {
+        return () => ac.abort();
+      });
+    } else {
+      event.preventDefault();
+      console.log("Created:", formData);
+      createCard(deckId, formData, ac.signal).then(() => {
+        return () => ac.abort();
+      });
+    }
   };
 
   const handleChange = ({ target }) =>
     setFormData({ ...formData, [target.name]: target.value });
-
-  useEffect(() => {
-    console.log(`cardId ${cardId}`);
-    if (!cardId) {
-      return;
-    }
-    readCard(cardId, ac.signal)
-      .then((c) => {
-        console.log(`updating card: ${JSON.stringify(c, null, 4)}`);
-        setCard(c);
-        initialState.front = c.front;
-        initialState.back = c.back;
-        initialState.id = c.id;
-        initialState.deckId = c.deckId;
-        setFormData({ ...initialState });
-        return () => ac.abort();
-      })
-      .catch((error) => setError(error));
-  }, [cardId]);
-
-  if (error) {
-    return <ErrorMessage error={error} />;
+  if (cardId) {
+    setFormData({ ...initialState });
+    submitType = "update";
+  } else {
+    setFormData({ ...initialState });
+    submitType = "new";
   }
+
+  // useEffect(() => {
+  //   console.log(`cardId ${cardId}`);
+  //   if (!cardId) {
+  //     return;
+  //   }
+  //   readCard(cardId, ac.signal)
+  //     .then((c) => {
+  //       console.log(`updating card: ${JSON.stringify(c, null, 4)}`);
+  //       setCard(c);
+  //       initialState.front = c.front;
+  //       initialState.back = c.back;
+  //       initialState.id = c.id;
+  //       initialState.deckId = c.deckId;
+  //       setFormData({ ...initialState });
+  //       return () => ac.abort();
+  //     })
+  //     .catch((error) => setError(error));
+  // }, [cardId]);
+// 
+  // if (error) {
+  //   return <ErrorMessage error={error} />;
+  // }
 
   return (
     <>
